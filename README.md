@@ -1,39 +1,84 @@
-# Ultrasonic Sensor Interfacing with FPGA
+# Ultrasonic Distance Measurement using FPGA (Verilog HDL)
 
-This project demonstrates how to interface the HC-SR04 ultrasonic distance sensor with an FPGA using Verilog HDL. The FPGA processes the echo signal to calculate the distance in centimeters.
+This project implements a real-time ultrasonic distance measurement system using an HC-SR04 sensor and an FPGA programmed in Verilog HDL. The system is designed for the course "FPGA-Based System Design (2EC202CC23)" at Nirma University.
 
----
-
-## Features
-
-- Measures distance using HC-SR04 ultrasonic sensor
-- FPGA receives echo signal and calculates time-of-flight
-- Displays distance on an 7-segment (optional)
-- Written in Verilog HDL
-- Simulatable and synthesizable design
+The project calculates the distance by measuring the duration of the echo signal and displays it on a 7-segment display.
 
 ---
 
-## Project Structure
+## Project Highlights
+
+- Trigger pulse generation (10 μs)
+- Echo signal capture and timing
+- Distance calculation using time-of-flight (ToF) formula
+- Display output using 7-segment display (4 digits)
+- Implemented as a Finite State Machine (FSM) in Verilog
+- RTL and waveform simulations included
+- FPGA implementation tested on hardware
+
+---
+
+## File Structure
 Ultrasonic-Sensor-FPGA/
 │
-├── pulse_generator.v # Sends trigger pulse to sensor
-├── echo_timer.v # Measures echo pulse duration
-├── distance_calc.v # Converts time to distance
-├── top_module.v # Top-level integration
-├── testbench.v # Verilog testbench for simulation
-├── README.md # Project documentation
-├── report.pdf # University report/documentation
+├── trial.v # Main Verilog module for measurement and display
+├── report.pdf # University report with methodology, results, diagrams
+├── README.md # Project summary and documentation
+├── waveforms/ # Simulation waveforms (optional)
 
-
+yaml
+Copy
+Edit
 
 ---
 
-## Components Used
+## Key Verilog Parameters
 
-- HC-SR04 ultrasonic sensor
-- Tersaic FPGA development board DE2 Altera Cyclone II.
-- 7-segment display 
-- Verilog simulator - ModelSim-altera & Quartus II.
+- Clock: 50 MHz
+- Trigger pulse: 10 μs (500 clock cycles)
+- Distance formula: `distance = (echo_count * speed_of_sound) / (2 * clock_freq)`
+- 7-segment display used for visual output
 
+---
 
+## State Machine
+
+The Verilog module uses a 4-state FSM:
+
+1. **IDLE** – Waits before next trigger
+2. **TRIGGER** – Sends a 10μs trigger pulse
+3. **WAIT_ECHO** – Waits for rising edge of echo
+4. **MEASURE** – Measures pulse width to calculate distance
+
+---
+
+## Simulation and Results
+
+- RTL and TTL logic visualizations
+- Waveform simulations verify trigger generation, echo capture, and distance output
+- Implemented and tested on FPGA with observed range: **2 cm to 45 cm**
+- Typical error: **~1 cm in 2 out of 10 measurements**
+
+---
+
+## Applications
+
+- Robotics (obstacle avoidance)
+- Security systems
+- Industrial automation
+- Smart measurement systems
+
+---
+
+## Author
+
+Divyanshu Kalal  
+Roll No: 23BEC053  
+Institute of Technology, Nirma University  
+Ahmedabad, Gujarat, India
+
+---
+
+## License
+
+This project is intended for academic and educational purposes only.
